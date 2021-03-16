@@ -9,5 +9,10 @@ namespace DungeonsOfDoom
         public Sword(string name="Katana") : base(name)
         {
         }
+
+        public override void Use(Player player)
+        {
+            player.Health++;
+        }
     }
 }

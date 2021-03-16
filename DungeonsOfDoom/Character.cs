@@ -14,9 +14,11 @@ namespace DungeonsOfDoom
         //damage by ogre player and skeleton
         /*as both ogre and player dealt same damage so this will be default implementation
         skeleton damage dealt 5 so it will override */
-        public virtual void Attack(Character opponent)
+        public virtual AttackResult Attack(Character opponent)
         {
-            opponent.Health -= 10;
+            int damage = 10;
+            opponent.Health -= damage;
+            return new AttackResult(this,opponent,damage);
         }
 
         public int Health { get; set; }

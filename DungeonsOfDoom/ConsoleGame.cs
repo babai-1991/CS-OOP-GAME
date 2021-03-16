@@ -65,6 +65,7 @@ namespace DungeonsOfDoom
 
         private void DisplayWorld()
         {
+            GameName();
             for (int y = 0; y < world.GetLength(1); y++)
             {
                 for (int x = 0; x < world.GetLength(0); x++)
@@ -73,18 +74,18 @@ namespace DungeonsOfDoom
                     if (player.X == x && player.Y == y)
                     {
                         Console.ForegroundColor = ConsoleColor.DarkCyan;
-                        Console.Write("Æ"); //put player here
+                        Console.Write("☼"); //put player here
                     }
 
                     else if (room.Monster != null)
                     {
                         Console.ForegroundColor = ConsoleColor.Red;
-                        Console.Write("[µ]"); //put monster here
+                        Console.Write("[Θ]"); //put monster here
                     }
                     else if (room.Item != null)
                     {
                         Console.ForegroundColor = ConsoleColor.DarkYellow;
-                        Console.Write("[I]"); // put item here
+                        Console.Write("[♥]"); // put item here
                     }
                     else
                     {
@@ -95,6 +96,8 @@ namespace DungeonsOfDoom
                 Console.WriteLine();
             }
         }
+
+       
 
         private void DisplayStats()
         {
@@ -113,7 +116,7 @@ namespace DungeonsOfDoom
             int newY = player.Y;
             bool isValidKey = true;
 
-            ConsoleKeyInfo keyInfo = Console.ReadKey();
+            ConsoleKeyInfo keyInfo = Console.ReadKey(true);
             switch (keyInfo.Key)
             {
                 case ConsoleKey.RightArrow: newX++; break;
@@ -147,11 +150,15 @@ namespace DungeonsOfDoom
             Monster monster = currentRoom.Monster;
             if (monster != null)
             {
-                monster.Attack(player);
+                AttackResult result = monster.Attack(player);
+                Console.WriteLine($"Player was damaged by monster:  {result.DamageDealt}");
+                Console.ReadKey(true);
 
                 if (player.IsAlive)
                 {
-                    player.Attack(monster);
+                    result = player.Attack(monster);
+                    Console.WriteLine($"Player damage monster by:  {result.DamageDealt}");
+                    Console.ReadKey(true);
                 }
 
                 if (!monster.IsAlive)
@@ -167,6 +174,9 @@ namespace DungeonsOfDoom
                 //add item un player's backpack
                 player.Backpack.Add(currentRoom.Item);
 
+                // if item is sword then player will have +1 heath and if item is Medkit then +10 health
+                currentRoom.Item.Use(player);
+
                 //remove that item from room
                 currentRoom.Item = null;
             }
@@ -178,6 +188,23 @@ namespace DungeonsOfDoom
             Console.WriteLine("Game over...");
             Console.ReadKey();
             Play();
+        }
+
+
+        private void GameName()
+        {
+            Console.ForegroundColor = ConsoleColor.DarkGreen;
+            Console.WriteLine(@"
+ 
+
+                ██████╗░░█████╗░██████╗░░█████╗░██╗
+                ██╔══██╗██╔══██╗██╔══██╗██╔══██╗██║
+                ██████╦╝███████║██████╦╝███████║██║
+                ██╔══██╗██╔══██║██╔══██╗██╔══██║██║
+                ██████╦╝██║░░██║██████╦╝██║░░██║██║
+                ╚═════╝░╚═╝░░╚═╝╚═════╝░╚═╝░░╚═╝╚═╝
+");
+            Console.WriteLine();
         }
     }
 }
