@@ -4,9 +4,9 @@ using System.Text;
 
 namespace DungeonsOfDoom
 {
-    class HealthBar:Item
+    class Health:Item
     {
-        public HealthBar(string name="Medkit") : base(name)
+        public Health(string name="Medkit") : base(name)
         {
         }
     }

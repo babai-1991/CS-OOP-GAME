@@ -47,13 +47,13 @@ namespace DungeonsOfDoom
                     {
                         world[x, y].Monster = new Ogre();
                     }
-                    else if(percentage < 10)
+                    else if (percentage < 10)
                     {
                         world[x, y].Monster = new Skeleton();
                     }
                     else if (percentage < 15)
                     {
-                        world[x, y].Item = new HealthBar();
+                        world[x, y].Item = new Health();
                     }
                     else if (percentage < 20)
                     {
@@ -131,15 +131,38 @@ namespace DungeonsOfDoom
                 player.Y = newY;
 
                 //discover what is inside room
-                DiscoverRoom();
+                EnterRoom();
             }
         }
 
-        private void DiscoverRoom()
+        private void EnterRoom()
         {
             //get current room
             Room currentRoom = world[player.X, player.Y];
-            if (currentRoom.Item != null)
+
+            /*
+             * If there's a monster, the monster attacks first, if the
+               players survive, the player gets to attack.
+             */
+            Monster monster = currentRoom.Monster;
+            if (monster != null)
+            {
+                monster.Attack(player);
+
+                if (player.IsAlive)
+                {
+                    player.Attack(monster);
+                }
+
+                if (!monster.IsAlive)
+                {
+                    /* as monster is a local variable so monster = null will be no impact on the game
+                     so use currentRoom.Monster = null instead of monster = null*/
+                    currentRoom.Monster = null;
+                }
+            }
+
+            if (player.IsAlive && currentRoom.Item != null)
             {
                 //add item un player's backpack
                 player.Backpack.Add(currentRoom.Item);
