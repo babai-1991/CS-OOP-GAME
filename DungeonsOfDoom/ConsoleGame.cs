@@ -104,7 +104,7 @@ namespace DungeonsOfDoom
             Console.WriteLine($"Health: {player.Health}");
 
             //backpack info
-            foreach (Item item in player.Backpack)
+            foreach (ICarryable item in player.Backpack)
             {
                 Console.WriteLine(item.Name);
             }
@@ -165,6 +165,9 @@ namespace DungeonsOfDoom
                 {
                     /* as monster is a local variable so monster = null will be no impact on the game
                      so use currentRoom.Monster = null instead of monster = null*/
+
+                    /* new requirement, put monster in backpack */
+                    player.Backpack.Add(currentRoom.Monster);
                     currentRoom.Monster = null;
                 }
             }

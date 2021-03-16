@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace DungeonsOfDoom
 {
-    public abstract class Monster:Character
+    public abstract class Monster:Character,ICarryable
     {
-        public Monster(int health):base(health)
+        protected Monster(string name,int health):base(health)
         {
-            
+            Name = name;
         }
-
+        public string Name { get; set; }
     }
 }

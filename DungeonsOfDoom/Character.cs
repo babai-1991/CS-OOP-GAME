@@ -6,7 +6,7 @@ namespace DungeonsOfDoom
 {
     public abstract class Character
     {
-        public Character(int health)
+        protected Character(int health)
         {
             Health = health;
         }

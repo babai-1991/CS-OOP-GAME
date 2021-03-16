@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace DungeonsOfDoom
 {
-    public abstract class Item
+    public abstract class Item:ICarryable
     {
-        public Item(string name)
+        protected Item(string name)
         {
             Name = name;
         }

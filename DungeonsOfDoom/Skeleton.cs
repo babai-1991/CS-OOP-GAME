@@ -6,7 +6,7 @@ namespace DungeonsOfDoom
 {
     class Skeleton : Monster
     {
-        public Skeleton(int health = 5) : base(health)
+        public Skeleton(int health = 5) : base("Skeleton",health)
         {
         }
 
